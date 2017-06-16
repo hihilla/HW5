@@ -16,6 +16,6 @@ public class SVM {
 	}
 	
 	public int[] calcConfusion(Instances instances) throws Exception{
-		
+		return null;
 	}
 }
