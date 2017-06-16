@@ -102,8 +102,55 @@ public class MainHW5 {
 		return new ResultBestKernel(bestKernel, bestKernelValue);
 	}
 	
-	public static void findBestCVal(Instances instances, ResultBestKernel kernel) {
+	public static void findBestCVal(Instances instances, 
+			ResultBestKernel kernel, 
+			Instances testData, 
+			Instances trainData) {
+		double bestCVal = 0;
+		double bestCResults = Integer.MIN_VALUE;
 		
+		for (int i = -4; i <= 1; i++) {
+			for (int j = 1; j <= 3; j++) {
+				double curCVal = Math.pow(10, i) * (j / 3.0);
+				if (kernel.type.equals("Poly")) {
+					// Poly Kernel
+					PolyKernel polyKer = new PolyKernel();
+					polyKer.setExponent(kernel.value);
+					SVM svm = new SVM();
+					svm.setKernel(polyKer);
+					svm.setC(curCVal);
+					try {
+						svm.buildClassifier(trainData);
+					int[] confusion = svm.calcConfusion(testData);
+					double[] confusionRates = svm.calcConfRates(confusion);
+					System.out.println("For C "+ curCVal +" the rates are:");
+					System.out.println("TPR = " + confusionRates[0]);
+					System.out.println("TPR = " + confusionRates[1]);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					// RBF Kernel
+					RBFKernel RBFKer = new RBFKernel();
+					RBFKer.setGamma(kernel.value);
+					SVM svm = new SVM();
+					svm.setKernel(RBFKer);
+					svm.setC(curCVal);
+					try {
+						svm.buildClassifier(trainData);
+					int[] confusion = svm.calcConfusion(testData);
+					double[] confusionRates = svm.calcConfRates(confusion);
+					System.out.println("For C "+ curCVal +" the rates are:");
+					System.out.println("TPR = " + confusionRates[0]);
+					System.out.println("TPR = " + confusionRates[1]);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
 	}
 	
 	public static void main(String[] args) throws Exception {
