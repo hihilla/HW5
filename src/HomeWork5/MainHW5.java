@@ -39,7 +39,7 @@ public class MainHW5 {
 		Instances testData = new Instances(instances, instances.numInstances());
 		Instances trainData = new Instances(instances, instances.numInstances());
 		String bestKernel;
-		double bestKerVal = -1;
+		double bestKernelValue = -1;
 		double bestKernelResults = (double)Integer.MIN_VALUE;
 		
 		for (int i = 0; i < instances.numInstances(); i++) {
@@ -66,8 +66,9 @@ public class MainHW5 {
 				System.out.println("TPR = " + confusionRates[0]);
 				System.out.println("TPR = " + confusionRates[1]);
 				if (bestKernelResults > (confusionRates[0] - confusionRates[1])){
-					bestKerVal = kernelValue;
+					bestKernelValue = kernelValue;
 					bestKernel = "Poly";
+					bestKernelResults = (confusionRates[0] - confusionRates[1]);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -87,6 +88,11 @@ public class MainHW5 {
 				System.out.println("For RBFKernel with gamma "+ kernelValue +" the rates are:");
 				System.out.println("TPR = " + confusionRates[0]);
 				System.out.println("TPR = " + confusionRates[1]);
+				if (bestKernelResults > (confusionRates[0] - confusionRates[1])){
+					bestKernelValue = kernelValue;
+					bestKernel = "RBF";
+					bestKernelResults = (confusionRates[0] - confusionRates[1]);
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
