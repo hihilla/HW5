@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import weka.core.Instances;
+import weka.classifiers.functions.SMO;
 import weka.classifiers.functions.supportVector.Kernel;
 import weka.classifiers.functions.supportVector.PolyKernel;
 import weka.classifiers.functions.supportVector.RBFKernel;
@@ -32,6 +33,49 @@ public class MainHW5 {
 		return data;
 	}
 	
-	public static void main(String[] args) throws Exception {
+	public static void findBestKernel(Instances instances){
+		
+		int division = 5;
+		Instances testData = new Instances(instances, instances.numInstances());
+		Instances trainData = new Instances(instances, instances.numInstances());
+		
+		for (int i = 0; i < instances.numInstances(); i++) {
+			if (i % division == 0){
+				testData.add(instances.instance(i));
+			} else {
+				trainData.add(instances.instance(i));
+			}
+		}
+		
+		int[] polynomialKernel = {2, 3, 4};
+		double[] RBFKernel = {1.0 / 100, 1.0 / 10, 1.0};
+		
+		for (int kernelValue : polynomialKernel) {
+			PolyKernel polyKer = new PolyKernel();
+			polyKer.setExponent(kernelValue);
+			SVM svm = new SVM();
+			svm.setKernel(polyKer);
+			try {
+				svm.buildClassifier(trainData);
+				int[] confusion = svm.calcConfusion(testData);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		for (double kernelValue : RBFKernel) {
+			RBFKernel RBFker = new RBFKernel();
+			RBFker.setGamma(kernelValue);
+		}
 	}
+	
+	public static void main(String[] args) throws Exception {
+		
+		Instances data = loadData("cancer.txt");
+		
+		
+		
+	}
+	
 }
