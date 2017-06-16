@@ -32,9 +32,9 @@ public class MainHW5 {
 		data.setClassIndex(data.numAttributes() - 1);
 		return data;
 	}
-	
+
 	public static ResultBestKernel findBestKernel(Instances instances){
-		
+
 		int division = 5;
 		Instances testData = new Instances(instances, instances.numInstances());
 		Instances trainData = new Instances(instances, instances.numInstances());
@@ -42,7 +42,7 @@ public class MainHW5 {
 		double bestKernelValue = -1;
 
 		double bestKernelResults = (double)Integer.MIN_VALUE;
-		
+
 		for (int i = 0; i < instances.numInstances(); i++) {
 			if (i % division == 0){
 				testData.add(instances.instance(i));
@@ -50,10 +50,10 @@ public class MainHW5 {
 				trainData.add(instances.instance(i));
 			}
 		}
-		
+
 		int[] polynomialKernel = {2, 3, 4};
 		double[] RBFKernel = {1.0 / 100, 1.0 / 10, 1.0};
-		
+
 		for (int kernelValue : polynomialKernel) {
 			PolyKernel polyKer = new PolyKernel();
 			polyKer.setExponent(kernelValue);
@@ -74,9 +74,9 @@ public class MainHW5 {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 		for (double kernelValue : RBFKernel) {
 			RBFKernel RBFker = new RBFKernel();
 			RBFker.setGamma(kernelValue);
@@ -98,73 +98,64 @@ public class MainHW5 {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return new ResultBestKernel(bestKernel, bestKernelValue);
 	}
-	
+
 	public static void findBestCVal(Instances instances, 
 			ResultBestKernel kernel, 
 			Instances testData, 
 			Instances trainData) {
 		double bestCVal = 0;
 		double bestCResults = Integer.MIN_VALUE;
-		
+
 		for (int i = -4; i <= 1; i++) {
 			for (int j = 1; j <= 3; j++) {
 				double curCVal = Math.pow(10, i) * (j / 3.0);
-				if (kernel.type.equals("Poly")) {
-					// Poly Kernel
-					PolyKernel polyKer = new PolyKernel();
-					polyKer.setExponent(kernel.value);
+				try {
 					SVM svm = new SVM();
-					svm.setKernel(polyKer);
+					if (kernel.type.equals("Poly")) {
+						// Poly Kernel
+						PolyKernel polyKer = new PolyKernel();
+						polyKer.setExponent(kernel.value);
+						svm.setKernel(polyKer);
+					} else {
+						// RBF Kernel
+						RBFKernel RBFKer = new RBFKernel();
+						RBFKer.setGamma(kernel.value);
+						svm.setKernel(RBFKer);
+					}
 					svm.setC(curCVal);
-					try {
-						svm.buildClassifier(trainData);
+					svm.buildClassifier(trainData);
 					int[] confusion = svm.calcConfusion(testData);
 					double[] confusionRates = svm.calcConfRates(confusion);
 					System.out.println("For C "+ curCVal +" the rates are:");
 					System.out.println("TPR = " + confusionRates[0]);
 					System.out.println("TPR = " + confusionRates[1]);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					if (bestCResults > (confusionRates[0] - confusionRates[1])) {
+						bestCResults = confusionRates[0] - confusionRates[1];
+						bestCVal = curCVal;
 					}
-				} else {
-					// RBF Kernel
-					RBFKernel RBFKer = new RBFKernel();
-					RBFKer.setGamma(kernel.value);
-					SVM svm = new SVM();
-					svm.setKernel(RBFKer);
-					svm.setC(curCVal);
-					try {
-						svm.buildClassifier(trainData);
-					int[] confusion = svm.calcConfusion(testData);
-					double[] confusionRates = svm.calcConfRates(confusion);
-					System.out.println("For C "+ curCVal +" the rates are:");
-					System.out.println("TPR = " + confusionRates[0]);
-					System.out.println("TPR = " + confusionRates[1]);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) throws Exception {
-		
+
 		Instances data = loadData("cancer.txt");
-		
+
 		ResultBestKernel bestKernel = findBestKernel(data);
 		System.out.println("The best kernel is: " + bestKernel.type +
 				" " + bestKernel.value + " " + bestKernel.results);
-		
-		
+
+
 	}
-	
-	
+
+
 }
 class ResultBestKernel {
 	String type;
