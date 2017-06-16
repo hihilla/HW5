@@ -32,7 +32,7 @@ public class SVM {
 	 * @param kernel
 	 */
 	public void setKernel(Kernel kernel) {
-		
+		this.m_smo.setKernel(kernel);
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class SVM {
 	 * @param c
 	 */
 	public void setC(double c) {
-		
+		this.m_smo.setC(c);
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class SVM {
 	 * @return the C parameter
 	 */
 	public double getC() {
-		return 0;
+		return this.m_smo.getC();
 	}
 	
 	
