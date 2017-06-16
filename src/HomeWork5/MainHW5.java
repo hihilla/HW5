@@ -41,7 +41,7 @@ public class MainHW5 {
 		String bestKernel = "";
 		double bestKernelValue = -1;
 
-		double bestKernelResults = (double)Integer.MIN_VALUE;
+		double bestKernelResults = Double.MAX_VALUE;
 
 		for (int i = 0; i < instances.numInstances(); i++) {
 			if (i % division == 0){
@@ -98,16 +98,16 @@ public class MainHW5 {
 				e.printStackTrace();
 			}
 		}
-
-		return new ResultBestKernel(bestKernel, bestKernelValue, bestKernelResults, testData, trainData);
+		ResultBestKernel ker = new ResultBestKernel(bestKernel, bestKernelValue, bestKernelResults, testData, trainData);
+		return ker;
 	}
 
 	public static void findBestCVal(ResultBestKernel kernel) {
 		for (int i = -4; i <= 1; i++) {
 			for (int j = 1; j <= 3; j++) {
 				double curCVal = Math.pow(10, i) * (j / 3.0);
+				SVM svm = new SVM();
 				try {
-					SVM svm = new SVM();
 					if (kernel.type.equals("Poly")) {
 						// Poly Kernel
 						PolyKernel polyKer = new PolyKernel();
@@ -119,13 +119,17 @@ public class MainHW5 {
 						RBFKer.setGamma(kernel.value);
 						svm.setKernel(RBFKer);
 					}
+					
 					svm.setC(curCVal);
 					svm.buildClassifier(kernel.trainData);
 					int[] confusion = svm.calcConfusion(kernel.testData);
 					double[] confusionRates = svm.calcConfRates(confusion);
+					
 					System.out.println("For C "+ curCVal +" the rates are:");
 					System.out.println("TPR = " + confusionRates[0]);
 					System.out.println("FPR = " + confusionRates[1]);
+					svm = null;
+					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
