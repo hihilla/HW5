@@ -33,12 +33,12 @@ public class MainHW5 {
 		return data;
 	}
 	
-	public static void findBestKernel(Instances instances){
+	public static ResultBestKernel findBestKernel(Instances instances){
 		
 		int division = 5;
 		Instances testData = new Instances(instances, instances.numInstances());
 		Instances trainData = new Instances(instances, instances.numInstances());
-		String bestKernel;
+		String bestKernel = "";
 		double bestKerVal = -1;
 		double bestKernelResults = (double)Integer.MIN_VALUE;
 		
@@ -91,6 +91,8 @@ public class MainHW5 {
 				e.printStackTrace();
 			}
 		}
+		
+		return new ResultBestKernel(bestKernel, bestKerVal);
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -101,4 +103,13 @@ public class MainHW5 {
 		
 	}
 	
+	
+}
+class ResultBestKernel {
+	String kerType;
+	double kerValue;
+	public ResultBestKernel(String kerType, double kerValue) {
+		this.kerType = kerType;
+		this.kerValue = kerValue;
+	}
 }
