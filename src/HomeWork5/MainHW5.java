@@ -99,16 +99,10 @@ public class MainHW5 {
 			}
 		}
 
-		return new ResultBestKernel(bestKernel, bestKernelValue);
+		return new ResultBestKernel(bestKernel, bestKernelValue, bestKernelResults, testData, trainData);
 	}
 
-	public static void findBestCVal(Instances instances, 
-			ResultBestKernel kernel, 
-			Instances testData, 
-			Instances trainData) {
-		double bestCVal = 0;
-		double bestCResults = Integer.MIN_VALUE;
-
+	public static void findBestCVal(ResultBestKernel kernel) {
 		for (int i = -4; i <= 1; i++) {
 			for (int j = 1; j <= 3; j++) {
 				double curCVal = Math.pow(10, i) * (j / 3.0);
@@ -126,16 +120,12 @@ public class MainHW5 {
 						svm.setKernel(RBFKer);
 					}
 					svm.setC(curCVal);
-					svm.buildClassifier(trainData);
-					int[] confusion = svm.calcConfusion(testData);
+					svm.buildClassifier(kernel.trainData);
+					int[] confusion = svm.calcConfusion(kernel.testData);
 					double[] confusionRates = svm.calcConfRates(confusion);
 					System.out.println("For C "+ curCVal +" the rates are:");
 					System.out.println("TPR = " + confusionRates[0]);
 					System.out.println("TPR = " + confusionRates[1]);
-					if (bestCResults > (confusionRates[0] - confusionRates[1])) {
-						bestCResults = confusionRates[0] - confusionRates[1];
-						bestCVal = curCVal;
-					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -151,8 +141,7 @@ public class MainHW5 {
 		ResultBestKernel bestKernel = findBestKernel(data);
 		System.out.println("The best kernel is: " + bestKernel.type +
 				" " + bestKernel.value + " " + bestKernel.results);
-
-
+		findBestCVal(bestKernel);
 	}
 
 
@@ -161,8 +150,13 @@ class ResultBestKernel {
 	String type;
 	double value;
 	double results;
-	public ResultBestKernel(String kerType, double kerValue) {
-		this.type = kerType;
-		this.value = kerValue;
+	Instances testData;
+	Instances trainData;
+	public ResultBestKernel(String type, double value, double results, Instances testData, Instances trainData) {
+		this.type = type;
+		this.value = value;
+		this.results = results;
+		this.testData = testData;
+		this.trainData = trainData;
 	}
 }
