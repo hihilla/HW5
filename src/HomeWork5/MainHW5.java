@@ -59,7 +59,9 @@ public class MainHW5 {
 				svm.buildClassifier(trainData);
 				int[] confusion = svm.calcConfusion(testData);
 				double[] confusionRates = svm.calcConfRates(confusion);
-				System.out.println();
+				System.out.println("For PolyKernel with degree "+ kernelValue +" the rates are:");
+				System.out.println("TPR = " + confusionRates[0]);
+				System.out.println("TPR = " + confusionRates[1]);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
