@@ -102,10 +102,17 @@ public class MainHW5 {
 		return new ResultBestKernel(bestKernel, bestKernelValue);
 	}
 	
+	public static void findBestCVal(Instances instances, ResultBestKernel kernel) {
+		
+	}
+	
 	public static void main(String[] args) throws Exception {
 		
 		Instances data = loadData("cancer.txt");
 		
+		ResultBestKernel bestKernel = findBestKernel(data);
+		System.out.println("The best kernel is: " + bestKernel.type +
+				" " + bestKernel.value + " " + bestKernel.results);
 		
 		
 	}
@@ -113,10 +120,11 @@ public class MainHW5 {
 	
 }
 class ResultBestKernel {
-	String kerType;
-	double kerValue;
+	String type;
+	double value;
+	double results;
 	public ResultBestKernel(String kerType, double kerValue) {
-		this.kerType = kerType;
-		this.kerValue = kerValue;
+		this.type = kerType;
+		this.value = kerValue;
 	}
 }
