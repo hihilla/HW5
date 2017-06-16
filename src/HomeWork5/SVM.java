@@ -2,6 +2,8 @@ package HomeWork5;
 
 import weka.classifiers.functions.SMO;
 import weka.classifiers.functions.supportVector.Kernel;
+import weka.classifiers.functions.supportVector.PolyKernel;
+import weka.classifiers.functions.supportVector.RBFKernel;
 import weka.core.Instance;
 import weka.core.Instances;
 
@@ -46,6 +48,18 @@ public class SVM {
 		}
 		int[] confusion = { truePositive, falsePositive, trueNegative, falseNegative }; 
 		return confusion;
+	}
+	
+	/**
+	 * Calculate the TPR and FPR for the given cunfusion values.
+	 * @param confusion - int array of size 4 in this order [TP, FP, TN, FN].
+	 * @return int array of size 2 in this order [TPR, FPR].
+	 */
+	public double[] calcConfRates(int[] confusion) {
+		double TPR = confusion[0] / (double) confusion[0] + confusion[3];
+		double FPR = confusion[1] / (double) confusion[1] + confusion[2];
+		double[] confRate = { TPR, FPR };
+		return confRate;
 	}
 	
 	/**
