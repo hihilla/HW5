@@ -2,6 +2,7 @@ package HomeWork5;
 
 import weka.classifiers.functions.SMO;
 import weka.classifiers.functions.supportVector.Kernel;
+import weka.core.Instance;
 import weka.core.Instances;
 
 public class SVM {
@@ -24,7 +25,27 @@ public class SVM {
 	 * @return int array of size 4 in this order [TP, FP, TN, FN].
 	 */
 	public int[] calcConfusion(Instances instances) throws Exception{
-		return null;
+		int truePositive = 0; // prediction positive and condition positive 
+		int falsePositive = 0; // prediction positive and condition negative
+		int falseNegative = 0; // prediction negative and condition positive
+		int trueNegative = 0; // prediction negative and condition negative
+
+		// count population
+		for (Instance instance : instances) {
+			boolean conditionPositive = instance.classValue() == 0;
+			boolean predictionPositive = this.m_smo.classifyInstance(instance) == 0;
+			if (predictionPositive && conditionPositive) {
+				truePositive++;
+			} else if (predictionPositive && !conditionPositive) {
+				falsePositive++;
+			} else if (!predictionPositive && conditionPositive) {
+				falseNegative++;
+			} else if (!predictionPositive && !conditionPositive) {
+				trueNegative++;
+			}
+		}
+		int[] confusion = { truePositive, falsePositive, trueNegative, falseNegative }; 
+		return confusion;
 	}
 	
 	/**
