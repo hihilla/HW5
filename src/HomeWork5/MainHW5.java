@@ -41,7 +41,7 @@ public class MainHW5 {
 		String bestKernel = "";
 		double bestKernelValue = -1;
 
-		double bestKernelResults = Double.MAX_VALUE;
+		double bestKernelResults = Integer.MIN_VALUE;
 
 		for (int i = 0; i < instances.numInstances(); i++) {
 			if (i % division == 0){
@@ -66,7 +66,7 @@ public class MainHW5 {
 				System.out.println("For PolyKernel with degree "+ kernelValue +" the rates are:");
 				System.out.println("TPR = " + confusionRates[0]);
 				System.out.println("FPR = " + confusionRates[1]);
-				if (bestKernelResults > (confusionRates[0] - confusionRates[1])){
+				if (bestKernelResults < (confusionRates[0] - confusionRates[1])){
 					bestKernelValue = kernelValue;
 					bestKernel = "Poly";
 					bestKernelResults = (confusionRates[0] - confusionRates[1]);
@@ -89,7 +89,7 @@ public class MainHW5 {
 				System.out.println("For RBFKernel with gamma "+ kernelValue +" the rates are:");
 				System.out.println("TPR = " + confusionRates[0]);
 				System.out.println("FPR = " + confusionRates[1]);
-				if (bestKernelResults > (confusionRates[0] - confusionRates[1])){
+				if (bestKernelResults < (confusionRates[0] - confusionRates[1])){
 					bestKernelValue = kernelValue;
 					bestKernel = "RBF";
 					bestKernelResults = (confusionRates[0] - confusionRates[1]);

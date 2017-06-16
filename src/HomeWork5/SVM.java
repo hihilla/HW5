@@ -56,8 +56,8 @@ public class SVM {
 	 * @return int array of size 2 in this order [TPR, FPR].
 	 */
 	public double[] calcConfRates(int[] confusion) {
-		double TPR = confusion[0] / (double) confusion[0] + confusion[3];
-		double FPR = confusion[1] / (double) confusion[1] + confusion[2];
+		double TPR = confusion[0] / ((double) confusion[0] + confusion[3]);
+		double FPR = confusion[1] / ((double) confusion[1] + confusion[2]);
 		double[] confRate = { TPR, FPR };
 		return confRate;
 	}
