@@ -74,7 +74,6 @@ public class MainHW5 {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 		}
 		
 		for (double kernelValue : RBFKernel) {
@@ -105,9 +104,7 @@ public class MainHW5 {
 	public static void main(String[] args) throws Exception {
 		
 		Instances data = loadData("cancer.txt");
-		
-		
-		
+	
 	}
 	
 	
