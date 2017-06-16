@@ -65,7 +65,7 @@ public class MainHW5 {
 				double[] confusionRates = svm.calcConfRates(confusion);
 				System.out.println("For PolyKernel with degree "+ kernelValue +" the rates are:");
 				System.out.println("TPR = " + confusionRates[0]);
-				System.out.println("TPR = " + confusionRates[1]);
+				System.out.println("FPR = " + confusionRates[1]);
 				if (bestKernelResults > (confusionRates[0] - confusionRates[1])){
 					bestKernelValue = kernelValue;
 					bestKernel = "Poly";
@@ -88,7 +88,7 @@ public class MainHW5 {
 				double[] confusionRates = svm.calcConfRates(confusion);
 				System.out.println("For RBFKernel with gamma "+ kernelValue +" the rates are:");
 				System.out.println("TPR = " + confusionRates[0]);
-				System.out.println("TPR = " + confusionRates[1]);
+				System.out.println("FPR = " + confusionRates[1]);
 				if (bestKernelResults > (confusionRates[0] - confusionRates[1])){
 					bestKernelValue = kernelValue;
 					bestKernel = "RBF";
@@ -125,7 +125,7 @@ public class MainHW5 {
 					double[] confusionRates = svm.calcConfRates(confusion);
 					System.out.println("For C "+ curCVal +" the rates are:");
 					System.out.println("TPR = " + confusionRates[0]);
-					System.out.println("TPR = " + confusionRates[1]);
+					System.out.println("FPR = " + confusionRates[1]);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
