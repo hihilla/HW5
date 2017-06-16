@@ -19,8 +19,8 @@ public class SVM {
 	/**
 	 * Calculate the TP, FP, TN, FN for a given instances object.
 	 * Definitions:
-•	recurrence-events is the 0.0 class and will be the NEGATIVE class
-•	no-recurrence-events is the 1.0 class and will be the POSITIVE class
+	 * recurrence-events is the 0.0 class and will be the NEGATIVE class
+	 * no-recurrence-events is the 1.0 class and will be the POSITIVE class
 	 * @param instances
 	 * @return int array of size 4 in this order [TP, FP, TN, FN].
 	 */
@@ -32,8 +32,8 @@ public class SVM {
 
 		// count population
 		for (Instance instance : instances) {
-			boolean conditionPositive = instance.classValue() == 0;
-			boolean predictionPositive = this.m_smo.classifyInstance(instance) == 0;
+			boolean conditionPositive = instance.classValue() == 1;
+			boolean predictionPositive = this.m_smo.classifyInstance(instance) == 1;
 			if (predictionPositive && conditionPositive) {
 				truePositive++;
 			} else if (predictionPositive && !conditionPositive) {
