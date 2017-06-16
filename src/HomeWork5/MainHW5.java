@@ -38,6 +38,9 @@ public class MainHW5 {
 		int division = 5;
 		Instances testData = new Instances(instances, instances.numInstances());
 		Instances trainData = new Instances(instances, instances.numInstances());
+		String bestKernel;
+		double bestKerVal = -1;
+		double bestKernelResults = (double)Integer.MIN_VALUE;
 		
 		for (int i = 0; i < instances.numInstances(); i++) {
 			if (i % division == 0){
@@ -62,6 +65,10 @@ public class MainHW5 {
 				System.out.println("For PolyKernel with degree "+ kernelValue +" the rates are:");
 				System.out.println("TPR = " + confusionRates[0]);
 				System.out.println("TPR = " + confusionRates[1]);
+				if (bestKernelResults > (confusionRates[0] - confusionRates[1])){
+					bestKerVal = kernelValue;
+					bestKernel = "Poly";
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
