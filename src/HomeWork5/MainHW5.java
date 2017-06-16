@@ -58,6 +58,8 @@ public class MainHW5 {
 			try {
 				svm.buildClassifier(trainData);
 				int[] confusion = svm.calcConfusion(testData);
+				double[] confusionRates = svm.calcConfRates(confusion);
+				System.out.println();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
