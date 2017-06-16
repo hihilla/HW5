@@ -36,11 +36,13 @@ public class MainHW5 {
 	public static ResultBestKernel findBestKernel(Instances instances){
 
 		int division = 5;
+		instances.randomize(new Random());
 		Instances testData = new Instances(instances, instances.numInstances());
 		Instances trainData = new Instances(instances, instances.numInstances());
+		testData.clear();
+		trainData.clear();
 		String bestKernel = "";
 		double bestKernelValue = -1;
-
 		double bestKernelResults = Integer.MIN_VALUE;
 
 		for (int i = 0; i < instances.numInstances(); i++) {

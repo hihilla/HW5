@@ -2,8 +2,6 @@ package HomeWork5;
 
 import weka.classifiers.functions.SMO;
 import weka.classifiers.functions.supportVector.Kernel;
-import weka.classifiers.functions.supportVector.PolyKernel;
-import weka.classifiers.functions.supportVector.RBFKernel;
 import weka.core.Instance;
 import weka.core.Instances;
 
