@@ -71,6 +71,18 @@ public class MainHW5 {
 		for (double kernelValue : RBFKernel) {
 			RBFKernel RBFker = new RBFKernel();
 			RBFker.setGamma(kernelValue);
+			SVM svm = new SVM();
+			svm.setKernel(RBFker);
+			try {
+				svm.buildClassifier(trainData);
+				int[] confusion = svm.calcConfusion(testData);
+				double[] confusionRates = svm.calcConfRates(confusion);
+				System.out.println("For RBFKernel with gamma "+ kernelValue +" the rates are:");
+				System.out.println("TPR = " + confusionRates[0]);
+				System.out.println("TPR = " + confusionRates[1]);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
