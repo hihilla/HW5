@@ -44,6 +44,7 @@ public class SVM {
 				trueNegative++;
 			}
 		}
+		
 		int[] confusion = { truePositive, falsePositive, trueNegative, falseNegative }; 
 		return confusion;
 	}
